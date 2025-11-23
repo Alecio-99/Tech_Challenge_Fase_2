@@ -55,10 +55,7 @@ mvn spring-boot:run
 
 ## Documentação
 
-- 📌 Acesse o Swagger:
- http://localhost:8080/swagger-ui/index.html
-
-- 📌 Acesse a Home da aplicação para Regras de Negócio:
+- 📌 Acesse a Home da aplicação para Regras de Negócio e Api Documentation com Swagger:
  http://localhost:8080/
 
 ---
