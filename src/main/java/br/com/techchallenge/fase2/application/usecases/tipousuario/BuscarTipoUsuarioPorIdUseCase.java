@@ -1,0 +1,22 @@
+package br.com.techchallenge.fase2.application.usecases.tipousuario;
+
+import br.com.techchallenge.fase2.domain.entities.TipoUsuario;
+import br.com.techchallenge.fase2.domain.repositories.TipoUsuarioRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class BuscarTipoUsuarioPorIdUseCase {
+
+    private final TipoUsuarioRepository repository;
+
+    public BuscarTipoUsuarioPorIdUseCase(TipoUsuarioRepository repository) {
+        this.repository = repository;
+    }
+
+    public Optional<TipoUsuario> executar(Long id) {
+        // TODO: implementar busca por id
+        throw new UnsupportedOperationException("Não implementado ainda");
+    }
+}
