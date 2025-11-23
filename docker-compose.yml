@@ -1,7 +1,4 @@
-version: "3.9"
-
 services:
-
   mysql-db:
     image: mysql:8.0
     container_name: mysql-techchallenge
@@ -9,23 +6,24 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: techchallenge
+      TZ: America/Sao_Paulo
     ports:
       - "3306:3306"
-    command: >
-      mysqld --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql_data:/var/lib/mysql
 
   techchallenge-api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: techchallenge-api
     restart: always
-    ports:
-      - "8080:8080"
     depends_on:
       - mysql-db
     environment:
-      SPRING_PROFILES_ACTIVE: prod   # <--- PRODUÇÃO
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "8080:8080"
     command: ["java", "-jar", "/app/app.jar"]
 
 volumes:
