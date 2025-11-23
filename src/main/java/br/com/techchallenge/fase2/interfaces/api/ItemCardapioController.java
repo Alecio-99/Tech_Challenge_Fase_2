@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/itens-cardapio")
+@RequestMapping("/api/v1/itens-cardapio")
 public class ItemCardapioController {
 
     private final CriarItemCardapioUseCase criarItemCardapioUseCase;

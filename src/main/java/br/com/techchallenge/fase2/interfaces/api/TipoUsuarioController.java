@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tipos-usuario")
+@RequestMapping("/api/v1/tipos-usuario")
 public class TipoUsuarioController {
 
     private final CriarTipoUsuarioUseCase criarTipoUsuarioUseCase;
