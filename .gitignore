@@ -1,33 +1,56 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+############################
+# Maven / Build
+############################
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+**/dependency-reduced-pom.xml
+**/pom.xml.versionsBackup
+**/.flattened-pom.xml
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+############################
+# IDEs / Editor
+############################
+# IntelliJ IDEA
+/.idea/
+/*.iml
+/modules.xml
+/.idea_modules/
+/atlassian-ide-plugin.xml
+/.classpath
+/.project
+/.settings/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# VSCode
 .vscode/
+
+############################
+# System Files
+############################
+.DS_Store
+Thumbs.db
+
+############################
+# Logs / Temp
+############################
+/*.log
+/logs/
+*.tmp
+
+############################
+# OS / Environment
+############################
+.env
+*.env
+
+############################
+# Docker files to KEEP (do not ignore)
+############################
+!Dockerfile
+!docker-compose.yml
+!Deploy_prod.sh
+
+############################
+# Application Config
+############################
+# App configurations to KEEP (do not ignore)
+!src/main/resources/application*.yml
