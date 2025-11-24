@@ -7,9 +7,9 @@
 ## 🚀 Tecnologias Utilizadas
 
 | Tecnologia | Versão | Uso |
-|------------|--------|-----|
+|------------|----|-----|
 | Java | 17 | Linguagem principal |
-| Spring Boot | 3+ / 4+ | Framework para API |
+| Spring Boot | 3+ | Framework para API |
 | JPA/Hibernate | 7+ | Persistência de dados |
 | MySQL | 8 | Banco relacional |
 | Docker + Docker Compose | Latest | Deploy e containers |
