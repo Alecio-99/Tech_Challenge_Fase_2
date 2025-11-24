@@ -6,7 +6,6 @@ import br.com.techchallenge.fase2.domain.entities.ItemCardapio;
 import br.com.techchallenge.fase2.domain.entities.Restaurante;
 import br.com.techchallenge.fase2.interfaces.api.itemcardapio.requests.ItemCardapioCreateRequestDTO;
 import br.com.techchallenge.fase2.interfaces.api.itemcardapio.requests.ItemCardapioPutRequestDTO;
-import br.com.techchallenge.fase2.interfaces.dtos.itemcardapio.*;
 import br.com.techchallenge.fase2.interfaces.presenters.dtos.itemcardapio.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

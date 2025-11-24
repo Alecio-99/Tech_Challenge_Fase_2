@@ -6,7 +6,6 @@ import br.com.techchallenge.fase2.domain.entities.Restaurante;
 import br.com.techchallenge.fase2.domain.entities.Usuario;
 import br.com.techchallenge.fase2.interfaces.api.restaurante.requests.RestauranteCreateRequestDTO;
 import br.com.techchallenge.fase2.interfaces.api.restaurante.requests.RestaurantePutRequestDTO;
-import br.com.techchallenge.fase2.interfaces.dtos.restaurante.*;
 import br.com.techchallenge.fase2.interfaces.presenters.dtos.restaurante.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

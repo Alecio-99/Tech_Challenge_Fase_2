@@ -4,7 +4,6 @@ import br.com.techchallenge.fase2.application.usecases.tipousuario.*;
 import br.com.techchallenge.fase2.domain.entities.TipoUsuario;
 import br.com.techchallenge.fase2.interfaces.api.tipousuario.requests.TipoUsuarioCreateRequestDTO;
 import br.com.techchallenge.fase2.interfaces.api.tipousuario.requests.TipoUsuarioPutRequestDTO;
-import br.com.techchallenge.fase2.interfaces.dtos.tipousuario.*;
 import br.com.techchallenge.fase2.interfaces.presenters.dtos.tipousuario.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
