@@ -1,14 +1,14 @@
 package br.com.techchallenge.fase2.application.usecases.usuario;
 
-import br.com.techchallenge.fase2.domain.repositories.UsuarioRepository;
+import br.com.techchallenge.fase2.application.gateways.UsuarioGateway;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ExcluirUsuarioUseCase {
 
-    private final UsuarioRepository repository;
+    private final UsuarioGateway repository;
 
-    public ExcluirUsuarioUseCase(UsuarioRepository repository) {
+    public ExcluirUsuarioUseCase(UsuarioGateway repository) {
         this.repository = repository;
     }
 

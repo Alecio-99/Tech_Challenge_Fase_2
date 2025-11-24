@@ -1,7 +1,7 @@
 package br.com.techchallenge.fase2.application.usecases.restaurante;
 
 import br.com.techchallenge.fase2.domain.entities.Restaurante;
-import br.com.techchallenge.fase2.domain.repositories.RestauranteRepository;
+import br.com.techchallenge.fase2.application.gateways.RestauranteGateway;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -9,9 +9,9 @@ import java.util.Optional;
 @Service
 public class BuscarRestaurantePorIdUseCase {
 
-    private final RestauranteRepository repository;
+    private final RestauranteGateway repository;
 
-    public BuscarRestaurantePorIdUseCase(RestauranteRepository repository) {
+    public BuscarRestaurantePorIdUseCase(RestauranteGateway repository) {
         this.repository = repository;
     }
 

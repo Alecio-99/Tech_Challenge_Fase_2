@@ -1,15 +1,15 @@
 package br.com.techchallenge.fase2.application.usecases.restaurante;
 
 import br.com.techchallenge.fase2.domain.entities.Restaurante;
-import br.com.techchallenge.fase2.domain.repositories.RestauranteRepository;
+import br.com.techchallenge.fase2.application.gateways.RestauranteGateway;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AtualizarRestauranteUseCase {
 
-    private final RestauranteRepository repository;
+    private final RestauranteGateway repository;
 
-    public AtualizarRestauranteUseCase(RestauranteRepository repository) {
+    public AtualizarRestauranteUseCase(RestauranteGateway repository) {
         this.repository = repository;
     }
 

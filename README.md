@@ -21,12 +21,29 @@
 
 ```text
 src/main/java/br/com/techchallenge/fase2
-├── application.usecases # Casos de uso (regras de negócio)
-├── domain # Entidades e modelos de domínio
+├── application
+│   ├── gateways          # Interfaces que definem como a aplicação acessa o mundo externo (DB, APIs)
+│   └── usecases          # Regras de negócio (casos de uso), independentes de tecnologia
+│
+├── domain
+│   ├── entities          # Entidades do domínio
+│   └── exceptions        # Exceções de domínio
+│
 ├── infrastructure
-│ ├── config # Configurações (Swagger, DB etc.)
-│ └── persistence # Repositórios JPA
-└── interfaces/api # Controllers (REST)
+│   ├── config            # Configurações gerais: Swagger, Beans, DB, Profiles etc.
+│   └── persistence
+│       ├── adapters      # Implementações dos Gateways
+│       ├── jpa           # Interfaces Spring Data JPA
+│       └── springdata    # Implementações/regras JPA adicionais
+│
+└── interfaces
+    ├── api               # Controllers REST (entrada do sistema)
+    │   ├── itemcardapio
+    │   ├── restaurante
+    │   ├── tipousuario
+    │   └── usuario
+    ├── presenters.dtos   # DTOs de saída (Response)
+    └── api/requests      # DTOs de entrada (Request)
 ```
 
 ---

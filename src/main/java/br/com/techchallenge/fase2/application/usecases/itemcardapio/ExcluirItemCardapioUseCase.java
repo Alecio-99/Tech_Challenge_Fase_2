@@ -1,14 +1,14 @@
 package br.com.techchallenge.fase2.application.usecases.itemcardapio;
 
-import br.com.techchallenge.fase2.domain.repositories.ItemCardapioRepository;
+import br.com.techchallenge.fase2.application.gateways.ItemCardapioGateway;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ExcluirItemCardapioUseCase {
 
-    private final ItemCardapioRepository repository;
+    private final ItemCardapioGateway repository;
 
-    public ExcluirItemCardapioUseCase(ItemCardapioRepository repository) {
+    public ExcluirItemCardapioUseCase(ItemCardapioGateway repository) {
         this.repository = repository;
     }
 
