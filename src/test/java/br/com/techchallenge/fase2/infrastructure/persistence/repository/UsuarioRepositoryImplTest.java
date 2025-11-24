@@ -1,6 +1,7 @@
 package br.com.techchallenge.fase2.infrastructure.persistence.repository;
 
 
-public class ItemCardapioRepositoryImplTest {
+public class UsuarioRepositoryImplTest {
+
 
 }
