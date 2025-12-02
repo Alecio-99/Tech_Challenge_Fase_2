@@ -1,7 +1,8 @@
 package br.com.techchallenge.fase2.interfaces.api.tipousuario;
 
+import br.com.techchallenge.fase2.application.dtos.AtualizarTipoUsuarioDTO;
+import br.com.techchallenge.fase2.application.dtos.CriarTipoUsuarioDTO;
 import br.com.techchallenge.fase2.application.usecases.tipousuario.*;
-import br.com.techchallenge.fase2.domain.entities.TipoUsuario;
 import br.com.techchallenge.fase2.interfaces.api.tipousuario.requests.TipoUsuarioCreateRequestDTO;
 import br.com.techchallenge.fase2.interfaces.api.tipousuario.requests.TipoUsuarioPutRequestDTO;
 import br.com.techchallenge.fase2.interfaces.presenters.dtos.tipousuario.*;
@@ -37,24 +38,27 @@ public class TipoUsuarioController {
 
     @PostMapping
     public ResponseEntity<TipoUsuarioCreateResponseDTO> criar(
-            @RequestBody TipoUsuarioCreateRequestDTO dto
+            @RequestBody TipoUsuarioCreateRequestDTO request
     ) {
-        TipoUsuario tipo = new TipoUsuario(null, dto.nomeTipo());
-        TipoUsuario salvo = criarTipoUsuarioUseCase.executar(tipo);
+        CriarTipoUsuarioDTO dto = new CriarTipoUsuarioDTO(request.nomeTipo());
+        var tipoSalvo = criarTipoUsuarioUseCase.executar(dto);
 
-        TipoUsuarioCreateResponseDTO response =
-                new TipoUsuarioCreateResponseDTO(salvo.getId(), salvo.getNomeTipo());
+        TipoUsuarioCreateResponseDTO response = new TipoUsuarioCreateResponseDTO(
+                tipoSalvo.getId(),
+                tipoSalvo.getNomeTipo()
+        );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TipoUsuarioGetResponseDTO> buscarPorId(@PathVariable Long id) {
-        return buscarTipoUsuarioPorIdUseCase.executar(id)
-                .map(tipo -> ResponseEntity.ok(
-                        new TipoUsuarioGetResponseDTO(tipo.getId(), tipo.getNomeTipo())
-                ))
-                .orElse(ResponseEntity.notFound().build());
+        var tipo = buscarTipoUsuarioPorIdUseCase.executar(id);
+        TipoUsuarioGetResponseDTO response = new TipoUsuarioGetResponseDTO(
+                tipo.getId(),
+                tipo.getNomeTipo()
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -70,13 +74,15 @@ public class TipoUsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<TipoUsuarioPutResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody TipoUsuarioPutRequestDTO dto
+            @RequestBody TipoUsuarioPutRequestDTO request
     ) {
-        TipoUsuario atualizado = new TipoUsuario(id, dto.nomeTipo());
-        TipoUsuario salvo = atualizarTipoUsuarioUseCase.executar(id, atualizado);
+        AtualizarTipoUsuarioDTO dto = new AtualizarTipoUsuarioDTO(id, request.nomeTipo());
+        var tipoSalvo = atualizarTipoUsuarioUseCase.executar(dto);
 
-        TipoUsuarioPutResponseDTO response =
-                new TipoUsuarioPutResponseDTO(salvo.getId(), salvo.getNomeTipo());
+        TipoUsuarioPutResponseDTO response = new TipoUsuarioPutResponseDTO(
+                tipoSalvo.getId(),
+                tipoSalvo.getNomeTipo()
+        );
 
         return ResponseEntity.ok(response);
     }

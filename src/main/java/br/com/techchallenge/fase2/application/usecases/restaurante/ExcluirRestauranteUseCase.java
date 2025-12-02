@@ -1,19 +1,19 @@
 package br.com.techchallenge.fase2.application.usecases.restaurante;
 
+import br.com.techchallenge.fase2.application.exceptions.EntityNotFoundException;
 import br.com.techchallenge.fase2.application.gateways.RestauranteGateway;
-import org.springframework.stereotype.Service;
 
-@Service
 public class ExcluirRestauranteUseCase {
 
-    private final RestauranteGateway repository;
+    private final RestauranteGateway restauranteGateway;
 
-    public ExcluirRestauranteUseCase(RestauranteGateway repository) {
-        this.repository = repository;
+    public ExcluirRestauranteUseCase(RestauranteGateway restauranteGateway) {
+        this.restauranteGateway = restauranteGateway;
     }
 
     public void executar(Long id) {
-        // TODO: implementar exclusão
-        throw new UnsupportedOperationException("Não implementado ainda");
+        restauranteGateway.buscarPorId(id)
+                .orElseThrow(() -> new EntityNotFoundException("Restaurante com ID " + id + " não encontrado."));
+        restauranteGateway.deletarPorId(id);
     }
 }

@@ -1,9 +1,8 @@
 package br.com.techchallenge.fase2.interfaces.api.itemcardapio;
 
+import br.com.techchallenge.fase2.application.dtos.AtualizarItemCardapioDTO;
+import br.com.techchallenge.fase2.application.dtos.CriarItemCardapioDTO;
 import br.com.techchallenge.fase2.application.usecases.itemcardapio.*;
-import br.com.techchallenge.fase2.application.usecases.restaurante.BuscarRestaurantePorIdUseCase;
-import br.com.techchallenge.fase2.domain.entities.ItemCardapio;
-import br.com.techchallenge.fase2.domain.entities.Restaurante;
 import br.com.techchallenge.fase2.interfaces.api.itemcardapio.requests.ItemCardapioCreateRequestDTO;
 import br.com.techchallenge.fase2.interfaces.api.itemcardapio.requests.ItemCardapioPutRequestDTO;
 import br.com.techchallenge.fase2.interfaces.presenters.dtos.itemcardapio.*;
@@ -22,67 +21,58 @@ public class ItemCardapioController {
     private final ListarItensCardapioUseCase listarItensCardapioUseCase;
     private final AtualizarItemCardapioUseCase atualizarItemCardapioUseCase;
     private final ExcluirItemCardapioUseCase excluirItemCardapioUseCase;
-    private final BuscarRestaurantePorIdUseCase buscarRestaurantePorIdUseCase;
 
     public ItemCardapioController(
             CriarItemCardapioUseCase criarItemCardapioUseCase,
             BuscarItemCardapioPorIdUseCase buscarItemCardapioPorIdUseCase,
             ListarItensCardapioUseCase listarItensCardapioUseCase,
             AtualizarItemCardapioUseCase atualizarItemCardapioUseCase,
-            ExcluirItemCardapioUseCase excluirItemCardapioUseCase,
-            BuscarRestaurantePorIdUseCase buscarRestaurantePorIdUseCase
+            ExcluirItemCardapioUseCase excluirItemCardapioUseCase
     ) {
         this.criarItemCardapioUseCase = criarItemCardapioUseCase;
         this.buscarItemCardapioPorIdUseCase = buscarItemCardapioPorIdUseCase;
         this.listarItensCardapioUseCase = listarItensCardapioUseCase;
         this.atualizarItemCardapioUseCase = atualizarItemCardapioUseCase;
         this.excluirItemCardapioUseCase = excluirItemCardapioUseCase;
-        this.buscarRestaurantePorIdUseCase = buscarRestaurantePorIdUseCase;
     }
 
     @PostMapping
     public ResponseEntity<ItemCardapioCreateResponseDTO> criar(
-            @RequestBody ItemCardapioCreateRequestDTO dto
+            @RequestBody ItemCardapioCreateRequestDTO request
     ) {
-        Restaurante restaurante = buscarRestaurantePorIdUseCase.executar(dto.restauranteId())
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
-
-        ItemCardapio item = new ItemCardapio(
-                null,
-                dto.nome(),
-                dto.descricao(),
-                dto.preco(),
-                dto.somenteNoLocal(),
-                dto.fotoPath(),
-                restaurante
+        CriarItemCardapioDTO dto = new CriarItemCardapioDTO(
+                request.nome(),
+                request.descricao(),
+                request.preco(),
+                request.somenteNoLocal(),
+                request.fotoPath(),
+                request.restauranteId()
         );
 
-        ItemCardapio salvo = criarItemCardapioUseCase.executar(item);
+        var itemSalvo = criarItemCardapioUseCase.executar(dto);
 
-        ItemCardapioCreateResponseDTO response =
-                new ItemCardapioCreateResponseDTO(
-                        salvo.getId(),
-                        salvo.getNome(),
-                        salvo.getRestaurante().getNome()
-                );
+        ItemCardapioCreateResponseDTO response = new ItemCardapioCreateResponseDTO(
+                itemSalvo.getId(),
+                itemSalvo.getNome(),
+                itemSalvo.getRestaurante().getNome()
+        );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemCardapioGetResponseDTO> buscarPorId(@PathVariable Long id) {
-        return buscarItemCardapioPorIdUseCase.executar(id)
-                .map(i -> new ItemCardapioGetResponseDTO(
-                        i.getId(),
-                        i.getNome(),
-                        i.getDescricao(),
-                        i.getPreco(),
-                        i.isSomenteNoLocal(),
-                        i.getFotoPath(),
-                        i.getRestaurante().getNome()
-                ))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        var item = buscarItemCardapioPorIdUseCase.executar(id);
+        ItemCardapioGetResponseDTO response = new ItemCardapioGetResponseDTO(
+                item.getId(),
+                item.getNome(),
+                item.getDescricao(),
+                item.getPreco(),
+                item.isSomenteNoLocal(),
+                item.getFotoPath(),
+                item.getRestaurante().getNome()
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -106,27 +96,24 @@ public class ItemCardapioController {
     @PutMapping("/{id}")
     public ResponseEntity<ItemCardapioPutResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody ItemCardapioPutRequestDTO dto
+            @RequestBody ItemCardapioPutRequestDTO request
     ) {
-        Restaurante restaurante = buscarRestaurantePorIdUseCase.executar(dto.restauranteId())
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
-
-        ItemCardapio atualizado = new ItemCardapio(
+        AtualizarItemCardapioDTO dto = new AtualizarItemCardapioDTO(
                 id,
-                dto.nome(),
-                dto.descricao(),
-                dto.preco(),
-                dto.somenteNoLocal(),
-                dto.fotoPath(),
-                restaurante
+                request.nome(),
+                request.descricao(),
+                request.preco(),
+                request.somenteNoLocal(),
+                request.fotoPath(),
+                request.restauranteId()
         );
 
-        ItemCardapio salvo = atualizarItemCardapioUseCase.executar(id, atualizado);
+        var itemSalvo = atualizarItemCardapioUseCase.executar(dto);
 
         ItemCardapioPutResponseDTO response = new ItemCardapioPutResponseDTO(
-                salvo.getId(),
-                salvo.getNome(),
-                salvo.getRestaurante().getNome()
+                itemSalvo.getId(),
+                itemSalvo.getNome(),
+                itemSalvo.getRestaurante().getNome()
         );
 
         return ResponseEntity.ok(response);

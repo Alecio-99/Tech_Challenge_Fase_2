@@ -5,11 +5,11 @@ import br.com.techchallenge.fase2.domain.exceptions.DomainException;
 public class Restaurante {
 
     private final Long id;
-    private String nome;
-    private String endereco;
-    private String tipoCozinha;
-    private String horarioFuncionamento;
-    private Usuario dono;
+    private final String nome;
+    private final String endereco;
+    private final String tipoCozinha;
+    private final String horarioFuncionamento;
+    private final Usuario dono;
 
     public Restaurante(
             Long id,

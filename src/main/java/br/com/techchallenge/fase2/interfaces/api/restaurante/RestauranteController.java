@@ -1,9 +1,8 @@
 package br.com.techchallenge.fase2.interfaces.api.restaurante;
 
+import br.com.techchallenge.fase2.application.dtos.AtualizarRestauranteDTO;
+import br.com.techchallenge.fase2.application.dtos.CriarRestauranteDTO;
 import br.com.techchallenge.fase2.application.usecases.restaurante.*;
-import br.com.techchallenge.fase2.application.usecases.usuario.BuscarUsuarioPorIdUseCase;
-import br.com.techchallenge.fase2.domain.entities.Restaurante;
-import br.com.techchallenge.fase2.domain.entities.Usuario;
 import br.com.techchallenge.fase2.interfaces.api.restaurante.requests.RestauranteCreateRequestDTO;
 import br.com.techchallenge.fase2.interfaces.api.restaurante.requests.RestaurantePutRequestDTO;
 import br.com.techchallenge.fase2.interfaces.presenters.dtos.restaurante.*;
@@ -22,48 +21,41 @@ public class RestauranteController {
     private final ListarRestaurantesUseCase listarRestaurantesUseCase;
     private final AtualizarRestauranteUseCase atualizarRestauranteUseCase;
     private final ExcluirRestauranteUseCase excluirRestauranteUseCase;
-    private final BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase;
 
     public RestauranteController(
             CriarRestauranteUseCase criarRestauranteUseCase,
             BuscarRestaurantePorIdUseCase buscarRestaurantePorIdUseCase,
             ListarRestaurantesUseCase listarRestaurantesUseCase,
             AtualizarRestauranteUseCase atualizarRestauranteUseCase,
-            ExcluirRestauranteUseCase excluirRestauranteUseCase,
-            BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase
+            ExcluirRestauranteUseCase excluirRestauranteUseCase
     ) {
         this.criarRestauranteUseCase = criarRestauranteUseCase;
         this.buscarRestaurantePorIdUseCase = buscarRestaurantePorIdUseCase;
         this.listarRestaurantesUseCase = listarRestaurantesUseCase;
         this.atualizarRestauranteUseCase = atualizarRestauranteUseCase;
         this.excluirRestauranteUseCase = excluirRestauranteUseCase;
-        this.buscarUsuarioPorIdUseCase = buscarUsuarioPorIdUseCase;
     }
 
     @PostMapping
     public ResponseEntity<RestauranteCreateResponseDTO> criar(
-            @RequestBody RestauranteCreateRequestDTO dto
+            @RequestBody RestauranteCreateRequestDTO request
     ) {
-        Usuario dono = buscarUsuarioPorIdUseCase.executar(dto.donoId())
-                .orElseThrow(() -> new RuntimeException("Dono não encontrado"));
-
-        Restaurante restaurante = new Restaurante(
-                null,
-                dto.nome(),
-                dto.endereco(),
-                dto.tipoCozinha(),
-                dto.horarioFuncionamento(),
-                dono
+        CriarRestauranteDTO dto = new CriarRestauranteDTO(
+                request.nome(),
+                request.endereco(),
+                request.tipoCozinha(),
+                request.horarioFuncionamento(),
+                request.donoId()
         );
 
-        Restaurante salvo = criarRestauranteUseCase.executar(restaurante);
+        var restauranteSalvo = criarRestauranteUseCase.executar(dto);
 
         RestauranteCreateResponseDTO response = new RestauranteCreateResponseDTO(
-                salvo.getId(),
-                salvo.getNome(),
-                salvo.getTipoCozinha(),
-                salvo.getHorarioFuncionamento(),
-                salvo.getDono().getNome()
+                restauranteSalvo.getId(),
+                restauranteSalvo.getNome(),
+                restauranteSalvo.getTipoCozinha(),
+                restauranteSalvo.getHorarioFuncionamento(),
+                restauranteSalvo.getDono().getNome()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -71,17 +63,16 @@ public class RestauranteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RestauranteGetResponseDTO> buscarPorId(@PathVariable Long id) {
-        return buscarRestaurantePorIdUseCase.executar(id)
-                .map(r -> new RestauranteGetResponseDTO(
-                        r.getId(),
-                        r.getNome(),
-                        r.getEndereco(),
-                        r.getTipoCozinha(),
-                        r.getHorarioFuncionamento(),
-                        r.getDono().getNome()
-                ))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        var restaurante = buscarRestaurantePorIdUseCase.executar(id);
+        RestauranteGetResponseDTO response = new RestauranteGetResponseDTO(
+                restaurante.getId(),
+                restaurante.getNome(),
+                restaurante.getEndereco(),
+                restaurante.getTipoCozinha(),
+                restaurante.getHorarioFuncionamento(),
+                restaurante.getDono().getNome()
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -104,28 +95,25 @@ public class RestauranteController {
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantePutResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody RestaurantePutRequestDTO dto
+            @RequestBody RestaurantePutRequestDTO request
     ) {
-        Usuario dono = buscarUsuarioPorIdUseCase.executar(dto.donoId())
-                .orElseThrow(() -> new RuntimeException("Dono não encontrado"));
-
-        Restaurante atualizado = new Restaurante(
+        AtualizarRestauranteDTO dto = new AtualizarRestauranteDTO(
                 id,
-                dto.nome(),
-                dto.endereco(),
-                dto.tipoCozinha(),
-                dto.horarioFuncionamento(),
-                dono
+                request.nome(),
+                request.endereco(),
+                request.tipoCozinha(),
+                request.horarioFuncionamento(),
+                request.donoId()
         );
 
-        Restaurante salvo = atualizarRestauranteUseCase.executar(id, atualizado);
+        var restauranteSalvo = atualizarRestauranteUseCase.executar(dto);
 
         RestaurantePutResponseDTO response = new RestaurantePutResponseDTO(
-                salvo.getId(),
-                salvo.getNome(),
-                salvo.getTipoCozinha(),
-                salvo.getHorarioFuncionamento(),
-                salvo.getDono().getNome()
+                restauranteSalvo.getId(),
+                restauranteSalvo.getNome(),
+                restauranteSalvo.getTipoCozinha(),
+                restauranteSalvo.getHorarioFuncionamento(),
+                restauranteSalvo.getDono().getNome()
         );
 
         return ResponseEntity.ok(response);

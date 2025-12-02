@@ -131,4 +131,12 @@ public class ItemCardapioGatewayImpl implements ItemCardapioGateway {
                 .filter(i -> i.getRestaurante().getId().equals(idRestaurante))
                 .toList();
     }
+
+    @Override
+    public ItemCardapio buscarPoNome(String nome) {
+        return buscarTodos().stream()
+                .filter(i -> i.getNome().equalsIgnoreCase(nome))
+                .findFirst()
+                .orElse(null);
+    }
 }

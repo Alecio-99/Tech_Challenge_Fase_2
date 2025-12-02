@@ -1,9 +1,8 @@
 package br.com.techchallenge.fase2.interfaces.api.usuario;
 
+import br.com.techchallenge.fase2.application.dtos.AtualizarUsuarioDTO;
+import br.com.techchallenge.fase2.application.dtos.CriarUsuarioDTO;
 import br.com.techchallenge.fase2.application.usecases.usuario.*;
-import br.com.techchallenge.fase2.domain.entities.TipoUsuario;
-import br.com.techchallenge.fase2.domain.entities.Usuario;
-import br.com.techchallenge.fase2.application.gateways.TipoUsuarioGateway;
 import br.com.techchallenge.fase2.interfaces.api.usuario.requests.UsuarioCreateRequestDTO;
 import br.com.techchallenge.fase2.interfaces.api.usuario.requests.UsuarioPutRequestDTO;
 import br.com.techchallenge.fase2.interfaces.presenters.dtos.usuario.*;
@@ -22,38 +21,32 @@ public class UsuarioController {
     private final ListarUsuariosUseCase listarUsuariosUseCase;
     private final AtualizarUsuarioUseCase atualizarUsuarioUseCase;
     private final ExcluirUsuarioUseCase excluirUsuarioUseCase;
-    private final TipoUsuarioGateway tipoUsuarioGateway;
 
     public UsuarioController(
             CriarUsuarioUseCase criarUsuarioUseCase,
             BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase,
             ListarUsuariosUseCase listarUsuariosUseCase,
             AtualizarUsuarioUseCase atualizarUsuarioUseCase,
-            ExcluirUsuarioUseCase excluirUsuarioUseCase,
-            TipoUsuarioGateway tipoUsuarioGateway
+            ExcluirUsuarioUseCase excluirUsuarioUseCase
     ) {
         this.criarUsuarioUseCase = criarUsuarioUseCase;
         this.buscarUsuarioPorIdUseCase = buscarUsuarioPorIdUseCase;
         this.listarUsuariosUseCase = listarUsuariosUseCase;
         this.atualizarUsuarioUseCase = atualizarUsuarioUseCase;
         this.excluirUsuarioUseCase = excluirUsuarioUseCase;
-        this.tipoUsuarioGateway = tipoUsuarioGateway;
     }
 
     @PostMapping
     public ResponseEntity<UsuarioCreateResponseDTO> criar(
-            @RequestBody UsuarioCreateRequestDTO dto
+            @RequestBody UsuarioCreateRequestDTO request
     ) {
-        TipoUsuario tipo = tipoUsuarioGateway.buscarPorId(dto.tipoUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Tipo de usuário não encontrado"));
-
-        Usuario usuario = new Usuario(null, dto.nome(), tipo);
-        Usuario salvo = criarUsuarioUseCase.executar(usuario);
+        CriarUsuarioDTO dto = new CriarUsuarioDTO(request.nome(), request.tipoUsuarioId());
+        var usuarioSalvo = criarUsuarioUseCase.executar(dto);
 
         UsuarioCreateResponseDTO response = new UsuarioCreateResponseDTO(
-                salvo.getId(),
-                salvo.getNome(),
-                salvo.getTipoUsuario().getNomeTipo()
+                usuarioSalvo.getId(),
+                usuarioSalvo.getNome(),
+                usuarioSalvo.getTipoUsuario().getNomeTipo()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -61,14 +54,13 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioGetResponseDTO> buscarPorId(@PathVariable Long id) {
-        return buscarUsuarioPorIdUseCase.executar(id)
-                .map(u -> new UsuarioGetResponseDTO(
-                        u.getId(),
-                        u.getNome(),
-                        u.getTipoUsuario().getNomeTipo()
-                ))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        var usuario = buscarUsuarioPorIdUseCase.executar(id);
+        UsuarioGetResponseDTO response = new UsuarioGetResponseDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getTipoUsuario().getNomeTipo()
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -88,18 +80,15 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioPutResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody UsuarioPutRequestDTO dto
+            @RequestBody UsuarioPutRequestDTO request
     ) {
-        TipoUsuario tipo = tipoUsuarioGateway.buscarPorId(dto.tipoUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Tipo de usuário não encontrado"));
-
-        Usuario usuarioAtualizado = new Usuario(id, dto.nome(), tipo);
-        Usuario salvo = atualizarUsuarioUseCase.executar(usuarioAtualizado);
+        AtualizarUsuarioDTO dto = new AtualizarUsuarioDTO(id, request.nome(), request.tipoUsuarioId());
+        var usuarioSalvo = atualizarUsuarioUseCase.executar(dto);
 
         UsuarioPutResponseDTO response = new UsuarioPutResponseDTO(
-                salvo.getId(),
-                salvo.getNome(),
-                salvo.getTipoUsuario().getNomeTipo()
+                usuarioSalvo.getId(),
+                usuarioSalvo.getNome(),
+                usuarioSalvo.getTipoUsuario().getNomeTipo()
         );
 
         return ResponseEntity.ok(response);
