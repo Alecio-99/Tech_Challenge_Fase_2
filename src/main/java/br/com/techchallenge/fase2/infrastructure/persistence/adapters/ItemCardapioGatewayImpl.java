@@ -10,12 +10,10 @@ import br.com.techchallenge.fase2.infrastructure.persistence.jpa.RestauranteJpa;
 import br.com.techchallenge.fase2.infrastructure.persistence.jpa.TipoUsuarioJpa;
 import br.com.techchallenge.fase2.infrastructure.persistence.jpa.UsuarioJpa;
 import br.com.techchallenge.fase2.infrastructure.persistence.springdata.ItemCardapioSpringDataRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class ItemCardapioGatewayImpl implements ItemCardapioGateway {
 
     private final ItemCardapioSpringDataRepository jpaRepository;

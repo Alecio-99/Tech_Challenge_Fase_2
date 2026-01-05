@@ -7,3 +7,5 @@ public class EntityNotFoundException extends ApplicationException {
     }
 }
 
+
+

@@ -5,3 +5,5 @@ public record AtualizarTipoUsuarioDTO(
         String nomeTipo
 ) {}
 
+
+

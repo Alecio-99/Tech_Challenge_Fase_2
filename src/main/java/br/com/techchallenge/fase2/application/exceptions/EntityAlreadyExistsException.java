@@ -7,3 +7,5 @@ public class EntityAlreadyExistsException extends ApplicationException {
     }
 }
 
+
+
