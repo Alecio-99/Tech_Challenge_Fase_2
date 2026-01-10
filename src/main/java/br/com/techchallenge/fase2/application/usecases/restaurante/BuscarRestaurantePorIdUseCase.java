@@ -1,22 +1,19 @@
 package br.com.techchallenge.fase2.application.usecases.restaurante;
 
-import br.com.techchallenge.fase2.domain.entities.Restaurante;
+import br.com.techchallenge.fase2.application.exceptions.EntityNotFoundException;
 import br.com.techchallenge.fase2.application.gateways.RestauranteGateway;
-import org.springframework.stereotype.Service;
+import br.com.techchallenge.fase2.domain.entities.Restaurante;
 
-import java.util.Optional;
-
-@Service
 public class BuscarRestaurantePorIdUseCase {
 
-    private final RestauranteGateway repository;
+    private final RestauranteGateway restauranteGateway;
 
-    public BuscarRestaurantePorIdUseCase(RestauranteGateway repository) {
-        this.repository = repository;
+    public BuscarRestaurantePorIdUseCase(RestauranteGateway restauranteGateway) {
+        this.restauranteGateway = restauranteGateway;
     }
 
-    public Optional<Restaurante> executar(Long id) {
-        // TODO: implementar busca por id
-        throw new UnsupportedOperationException("Não implementado ainda");
+    public Restaurante executar(Long id) {
+        return restauranteGateway.buscarPorId(id)
+                .orElseThrow(() -> new EntityNotFoundException("Restaurante com ID " + id + " não encontrado."));
     }
 }

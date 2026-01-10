@@ -1,22 +1,19 @@
 package br.com.techchallenge.fase2.application.usecases.tipousuario;
 
-import br.com.techchallenge.fase2.domain.entities.TipoUsuario;
 import br.com.techchallenge.fase2.application.gateways.TipoUsuarioGateway;
-import org.springframework.stereotype.Service;
+import br.com.techchallenge.fase2.domain.entities.TipoUsuario;
 
 import java.util.List;
 
-@Service
 public class ListarTiposUsuarioUseCase {
 
-    private final TipoUsuarioGateway repository;
+    private final TipoUsuarioGateway tipoUsuarioGateway;
 
-    public ListarTiposUsuarioUseCase(TipoUsuarioGateway repository) {
-        this.repository = repository;
+    public ListarTiposUsuarioUseCase(TipoUsuarioGateway tipoUsuarioGateway) {
+        this.tipoUsuarioGateway = tipoUsuarioGateway;
     }
 
     public List<TipoUsuario> executar() {
-        // TODO: implementar listagem
-        throw new UnsupportedOperationException("Não implementado ainda");
+        return tipoUsuarioGateway.buscarTodos();
     }
 }

@@ -16,4 +16,6 @@ public interface ItemCardapioGateway {
     void deletarPorId(Long id);
 
     List<ItemCardapio> buscarPorRestaurante(Long idRestaurante);
+
+    ItemCardapio buscarPoNome(String trim);
 }

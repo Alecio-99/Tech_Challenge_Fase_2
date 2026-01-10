@@ -33,27 +33,26 @@ public class ItemCardapio {
         this.restaurante = restaurante;
     }
 
-    private void validar(
-            String nome,
-            String descricao,
-            BigDecimal preco,
-            String fotoPath,
-            Restaurante restaurante
-    ) {
-        if (nome == null || nome.trim().isEmpty())
+    private void validar(String nome, String descricao, BigDecimal preco, String fotoPath, Restaurante restaurante) {
+        if (nome == null || nome.trim().isEmpty()) {
             throw new DomainException("Nome do item do cardápio é obrigatório.");
-
-        if (descricao == null || descricao.trim().isEmpty())
+        }
+        
+        if (descricao == null || descricao.trim().isEmpty()) {
             throw new DomainException("Descrição do item do cardápio é obrigatória.");
-
-        if (preco == null || preco.compareTo(BigDecimal.ZERO) <= 0)
+        }
+        
+        if (preco == null || preco.compareTo(BigDecimal.ZERO) <= 0) {
             throw new DomainException("Preço deve ser maior que zero.");
-
-        if (fotoPath == null || fotoPath.trim().isEmpty())
+        }
+        
+        if (fotoPath == null || fotoPath.trim().isEmpty()) {
             throw new DomainException("Foto do prato deve ter um caminho válido.");
-
-        if (restaurante == null)
+        }
+        
+        if (restaurante == null) {
             throw new DomainException("Item do cardápio deve pertencer a um restaurante.");
+        }
     }
 
     public Long getId() {

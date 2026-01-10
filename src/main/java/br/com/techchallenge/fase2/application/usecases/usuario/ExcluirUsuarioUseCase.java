@@ -1,18 +1,19 @@
 package br.com.techchallenge.fase2.application.usecases.usuario;
 
+import br.com.techchallenge.fase2.application.exceptions.EntityNotFoundException;
 import br.com.techchallenge.fase2.application.gateways.UsuarioGateway;
-import org.springframework.stereotype.Service;
 
-@Service
 public class ExcluirUsuarioUseCase {
 
-    private final UsuarioGateway repository;
+    private final UsuarioGateway usuarioGateway;
 
-    public ExcluirUsuarioUseCase(UsuarioGateway repository) {
-        this.repository = repository;
+    public ExcluirUsuarioUseCase(UsuarioGateway usuarioGateway) {
+        this.usuarioGateway = usuarioGateway;
     }
 
     public void executar(Long id) {
-        repository.deletarPorId(id);
+        usuarioGateway.buscarPorId(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado."));
+        usuarioGateway.deletarPorId(id);
     }
 }

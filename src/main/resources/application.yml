@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: techchallenge-fase2
-
-  profiles:
-    active: prod #troca aqui para prod caso queira subir apontando para o docker
-
-server:
-  port: 8080

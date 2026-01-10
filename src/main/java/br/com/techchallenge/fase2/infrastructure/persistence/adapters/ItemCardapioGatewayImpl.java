@@ -10,12 +10,10 @@ import br.com.techchallenge.fase2.infrastructure.persistence.jpa.RestauranteJpa;
 import br.com.techchallenge.fase2.infrastructure.persistence.jpa.TipoUsuarioJpa;
 import br.com.techchallenge.fase2.infrastructure.persistence.jpa.UsuarioJpa;
 import br.com.techchallenge.fase2.infrastructure.persistence.springdata.ItemCardapioSpringDataRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class ItemCardapioGatewayImpl implements ItemCardapioGateway {
 
     private final ItemCardapioSpringDataRepository jpaRepository;
@@ -130,5 +128,13 @@ public class ItemCardapioGatewayImpl implements ItemCardapioGateway {
         return buscarTodos().stream()
                 .filter(i -> i.getRestaurante().getId().equals(idRestaurante))
                 .toList();
+    }
+
+    @Override
+    public ItemCardapio buscarPoNome(String nome) {
+        return buscarTodos().stream()
+                .filter(i -> i.getNome().equalsIgnoreCase(nome))
+                .findFirst()
+                .orElse(null);
     }
 }

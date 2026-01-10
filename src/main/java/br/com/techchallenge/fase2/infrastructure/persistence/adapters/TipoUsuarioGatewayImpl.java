@@ -4,12 +4,10 @@ import br.com.techchallenge.fase2.domain.entities.TipoUsuario;
 import br.com.techchallenge.fase2.application.gateways.TipoUsuarioGateway;
 import br.com.techchallenge.fase2.infrastructure.persistence.jpa.TipoUsuarioJpa;
 import br.com.techchallenge.fase2.infrastructure.persistence.springdata.TipoUsuarioSpringDataRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class TipoUsuarioGatewayImpl implements TipoUsuarioGateway {
 
     private final TipoUsuarioSpringDataRepository jpaRepository;
