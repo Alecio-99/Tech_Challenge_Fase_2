@@ -70,6 +70,18 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.6.0</version>
@@ -82,6 +94,49 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<!-- Application -->
+								<exclude>**/application/dtos/**</exclude>
+								<exclude>**/application/exceptions/**</exclude>
+								<exclude>**/application/gateways/**</exclude>
+								<!-- Domain -->
+								<exclude>**/domain/exceptions/**</exclude>
+								<!-- Infrastructure -->
+								<exclude>**/infrastructure/**</exclude>
+								<!-- Interfaces -->
+								<exclude>**/interfaces/api/exceptions/**</exclude>
+								<exclude>**/interfaces/presenters/dtos/**</exclude>
+								<exclude>**/interfaces/api/controllers/itemcardapio/requests/**</exclude>
+								<exclude>**/interfaces/api/controllers/restaurante/requests/**</exclude>
+								<exclude>**/interfaces/api/controllers/tipousuario/requests/**</exclude>
+								<exclude>**/interfaces/api/controllers/usuario/requests/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
